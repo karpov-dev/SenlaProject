@@ -1,0 +1,9 @@
+<apex:page >
+  <apex:includeLightning />
+  <div id="lightning"/>
+  <script>
+    $Lightning.use("c:AuraAppContainer", function(){
+      $Lightning.createComponent("c:AuraMainCmp", {}, "lightning", null);
+    });
+  </script>
+</apex:page>
