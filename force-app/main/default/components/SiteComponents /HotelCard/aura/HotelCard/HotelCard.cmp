@@ -1,0 +1,29 @@
+<aura:component description="Card with information about one hotel">
+
+    <aura:attribute name="hotel" type="Hotel__c"/>
+
+    <div class="slds-m-around_xx-small">
+        <div class="slds-box">
+            <header>
+                <h2 class="slds-card__header-title">
+                    <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                        <span><lightning:icon class="slds-m-right_medium" iconName="standard:address" title="{!v.hotel.Name}"/></span>
+                        <span>{!v.hotel.Name}</span>
+                    </a>
+                </h2>
+            </header>
+            <div class="slds-m-top_xx-small">
+                <lightning:layout>
+                    <img src="{!$Resource.HotelPreview}"/>
+                    <div class="slds-m-left_small">
+                        <p>Description: {!v.hotel.Description__c}</p>
+                        <p>Location: {!v.hotel.Country__c}, {!v.hotel.State_Province__c}, {!v.hotel.Street__c}, {!v.hotel.Building_Address__c}</p>
+                        <p>Email: {!v.hotel.Email__c}</p>
+                    </div>
+                </lightning:layout>
+            </div>            
+        </div>
+    </div>
+
+
+</aura:component>	

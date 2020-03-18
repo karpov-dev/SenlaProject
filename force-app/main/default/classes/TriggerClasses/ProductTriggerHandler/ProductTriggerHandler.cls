@@ -8,7 +8,6 @@ public class ProductTriggerHandler extends TriggerHandler{
                                                 FROM PricebookEntry 
                                                 WHERE Product2Id IN :Trigger.old];
         BookingCardManager.convertToHistoryCard(bookingCards);
-        BookingCardManager.deleteRelationships(bookingCards);
         update bookingCards;
         delete pricebookEntrys;
     }

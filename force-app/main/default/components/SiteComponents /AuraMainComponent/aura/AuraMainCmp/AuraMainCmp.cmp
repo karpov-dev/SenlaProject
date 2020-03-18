@@ -1,0 +1,19 @@
+<aura:component>
+
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    <aura:attribute name="spinner" type="Boolean"/>
+
+    <aura:if isTrue="{!v.spinner}">
+        <div class="slds-card__body slds-card__body_inner">
+            <div role="status" class="slds-spinner slds-spinner_small">
+              <span class="slds-assistive-text">Loading</span>
+              <div class="slds-spinner__dot-a"></div>
+              <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+
+    <c:HotelsTable/>
+
+</aura:component>	

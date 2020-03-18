@@ -1,0 +1,18 @@
+<aura:component controller="HotelController">
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:attribute name="hotels" type="Hotel__c[]"/>
+    
+    <lightning:card>
+        <lightning:layout multipleRows="true">
+           <aura:iteration items="{!v.hotels}" var="hotel">
+                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                    <c:HotelCard hotel = "{!hotel}"/>
+                </lightning:layoutItem>
+            </aura:iteration>
+        </lightning:layout>
+    </lightning:card>
+
+    
+    
+</aura:component>	

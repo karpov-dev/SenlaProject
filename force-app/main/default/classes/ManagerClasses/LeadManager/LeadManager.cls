@@ -3,12 +3,10 @@ public class LeadManager {
     @InvocableMethod
     public static void convertToContact(List<Lead> leads){
         if(leads != null){
-            List<Contact> contacts = copyInfoFromLead(leads);   
-            List<String> leadsEmail = getLeadsEmail(leads);      
+            List<Contact> contacts = copyInfoFromLeads(leads);        
             insert contacts;
-            contacts = [SELECT Id, Email FROM Contact WHERE Email IN :leadsEmail];
             leads = [SELECT Id, Email, (SELECT Contact__c FROM Booking_Cards__r) FROM Lead WHERE Id IN: getLeadsId(leads)];
-            connectBookingCardsAndContact(leads, contacts);
+            connectBookingCardsWithContact(leads, contacts);
             update contacts;
             delete leads;
         } else {
@@ -16,24 +14,60 @@ public class LeadManager {
         }
     }
 
-    public static void createLead(List<String> firstName, List<String> lastName, List<String> email, List<String> phone){
-        if(checkInfoForCreateLeads(firstName, lastName, email, phone)){
-            List<Lead> newLeads = new List<Lead>();
-            for(Integer i = 0; i < firstName.size(); i++){
-                Boolean f = true;
+    public static Lead createNewLead(String firstName, String lastName, String email, String phone){
+        if(firstName != null && lastName != null && email != null && phone != null){
+            List<List<SObject>> searchList = [FIND :email IN EMAIL FIELDS RETURNING Contact(Email)];
+            List<Contact> searchContacts = (List<Contact>)searchList[0];
+            if(searchContacts == null || searchContacts.size() == 0){
+                Lead newLead = new Lead(FirstName = firstName, LastName = lastName, Email = email, Phone = phone, Company = 'User');
+                return newLead;
+            } else {
+                return null;
             }
         } else {
             throw new NullPointerException();
         }
     }
 
-    public static void checkEmailsForCreateLeads(List<String> emails){
-        
+    public static Lead getLeadByEmail(List<Lead> leads, String email){
+        for(Lead lead : leads){
+            if(lead.Email == email){
+                return lead;
+            }
+        }
+        return null;
     }
 
 
 
-    private static void connectBookingCardsAndContact(List<Lead> leads, List<Contact> contacts){
+    private static Contact getContactByEmail(List<Contact> contacts, String email){
+        if(contacts != null && email != null){
+            for(Contact contact : contacts){
+                if(contact.Email == email){
+                    return contact;
+                }
+            }
+            return null;
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    private static Lead getLeadByEmail(List<Lead> leads, String Email){
+        if(leads != null && Email != null){
+            for(Lead lead : leads){
+                if(lead.Email == Email){
+                    return lead;
+                }
+            }
+            return null;
+        } else {
+            throw new NullPointerException();
+        }
+        
+    }
+
+    private static void connectBookingCardsWithContact(List<Lead> leads, List<Contact> contacts){
 
         if(leads != null && contacts != null){
             List<BookingCard__c> cardsForUpdate = new List<BookingCard__c>();
@@ -50,37 +84,20 @@ public class LeadManager {
         }
     }
 
-    private static List<Contact> copyInfoFromLead(List<Lead> leads){
-        if(leads != null){
+    private static List<Contact> copyInfoFromLeads(List<Lead> leads){
+        if(leads != null && lead.FirstName != null && lead.LastName != null && lead.Phone != null && lead.Email != null){
             List<Contact> contacts = new list<Contact>();
+            List<Contact> contactEmails = [SELECT Id, Email FROM Contact];
             for(Lead lead : leads){
-                contacts.add(new Contact(FirstName = lead.FirstName, LastName = lead.LastName, Phone = lead.Phone, Email = lead.Email));
-            }
-            return contacts;
-        }
-        return null;
-    }
-
-    private static List<String> getLeadsEmail(List<Lead> leads){
-        if(leads != null){
-            List<String> emails = new List<String>();
-            for(Lead lead : leads){
-                emails.add(lead.Email);
-            }
-            return emails;
-        }
-        return null;
-    }
-
-    private static Lead getLeadByEmail(List<Lead> leads, String Email){
-        if(leads != null && Email != null){
-            for(Lead lead : leads){
-                if(lead.Email == Email){
-                    return lead;
+                Contact contact = getContactByEmail(contactEmails, lead.Email);
+                if(contact == null){
+                    contacts.add(new Contact(FirstName = lead.FirstName, LastName = lead.LastName, Email = lead.Email, Phone = lead.Phone));
                 }
             }
+            return contacts;
+        } else {
+            throw new NullPointerException();
         }
-        return null;
     }
 
     private static List<Id> getLeadsId(List<Lead> leads){
@@ -93,24 +110,4 @@ public class LeadManager {
         }
         return null;
     }
-
-    private static Boolean checkInfoForCreateLeads(List<String> firstName, List<String> lastName, List<String> email, List<String> phone){
-        if(firstName != null && lastName != null && email != null && phone != null){
-            List<Integer> sizes = new List<Integer>();
-            sizes.add(firstName.size());
-            sizes.add(lastName.size());
-            sizes.add(email.size());
-            sizes.add(phone.size());
-            for(Integer i = 0; i < sizes.size(); i++){
-                for(Integer j = i + 1; j < sizes.size(); j++){
-                    if(sizes[i] != sizes[j]){
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
 }
