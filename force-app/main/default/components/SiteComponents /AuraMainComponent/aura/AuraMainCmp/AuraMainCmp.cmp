@@ -1,8 +1,13 @@
-<aura:component>
+<aura:component controller="HotelController">
 
     <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
     <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler name="clickOnHotelCard" event="c:clickOnHotelCardEvent" action="{!c.showMoreHotelInfo}"/>
+
     <aura:attribute name="spinner" type="Boolean"/>
+    <aura:attribute name="selectedHotel" type="Hotel__c"/>
+    <aura:attribute name="hotels" type="Hotel__c[]"/>
 
     <aura:if isTrue="{!v.spinner}">
         <div class="slds-card__body slds-card__body_inner">
@@ -13,7 +18,17 @@
             </div>
         </div>
     </aura:if>
+    
+    <lightning:layout horizontalAlign="center" verticalAlign="start" multipleRows="false" pullToBoundary="small">
 
-    <c:HotelsTable/>
+        <lightning:layoutItem size="6">
+            <c:HotelsTable hotels="{!v.hotels}"/>
+        </lightning:layoutItem>
+
+        <lightning:layoutItem size="6">
+            <c:FullHotelInfo hotel="{!v.selectedHotel}"/>
+        </lightning:layoutItem>
+
+    </lightning:layout>
 
 </aura:component>	

@@ -1,6 +1,5 @@
-<aura:component controller="HotelController">
+<aura:component>
 
-    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
     <aura:attribute name="hotels" type="Hotel__c[]"/>
     
     <lightning:card>

@@ -1,10 +1,11 @@
 ({
-    init : function(component, event, helper) {
-        let action = component.get('c.getHotels');
-        action.setCallback(this, function(response){
+    getRooms : function(component, event, helper) {
+        let action = component.get('c.getProducts');
+        action.setParams({hotel : component.get("v.hotel")});
+        action.setCallback(this, function(response) {
             let state = response.getState();
             if(state === 'SUCCESS'){
-                component.set('v.hotels', response.getReturnValue());
+                component.set('v.rooms', response.getReturnValue());
             } else if (state === 'INCOMPLETE'){
                 console.log('Response has some problems. Response state is INCOMPLETE');
             } else if(state === 'ERROR'){
@@ -17,18 +18,5 @@
             }
         });
         $A.enqueueAction(action);
-    },
-
-    showSpinner : function(component, event, helper) {
-        component.set('v.spinner', true);
-    },
-
-    hideSpinner : function(component, event, helper){
-        component.set('v.spinner', false);
-    },
-
-    showMoreHotelInfo : function(component, event, helper){
-        component.set('v.selectedHotel', event.getParam('hotel'));
     }
-
 })

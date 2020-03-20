@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="This is event fire when user click on hotel card">
+    <aura:attribute name="hotel" Type="Hotel__c"/>
+</aura:event>

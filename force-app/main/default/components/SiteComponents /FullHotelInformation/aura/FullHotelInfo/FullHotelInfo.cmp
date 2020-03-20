@@ -1,0 +1,15 @@
+<aura:component controller="ProductController">
+
+    <aura:handler name="change" value="{!v.hotel}" action="{!c.getRooms}"/>
+    <aura:attribute name="hotel" type="Hotel__c"/>
+    <aura:attribute name="rooms" type="Product2[]"/>
+
+    <lightning:card title="{!v.hotel.Name}">
+        <div class="slds-p-horizontal_small">
+            <p>Description: {!v.hotel.Description__c}</p>
+            <p>Email: {!v.hotel.Email__c}</p>
+            <c:RoomsTable rooms="{!v.rooms}"/>
+        </div>
+    </lightning:card>
+
+</aura:component>	
