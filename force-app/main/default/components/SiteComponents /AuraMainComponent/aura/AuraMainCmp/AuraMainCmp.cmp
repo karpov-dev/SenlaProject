@@ -1,34 +1,36 @@
 <aura:component controller="HotelController">
 
-    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
-    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
-    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
-    <aura:handler name="clickOnHotelCard" event="c:clickOnHotelCardEvent" action="{!c.showMoreHotelInfo}"/>
+    <aura:handler name="changeSelectedHotelEvent" event="c:changeSelectedHotelEvent"
+        action="{!c.updateSelectedHotel}" />
+    <aura:handler name="showBookingModalWindowEvent" event="c:showBookingModalWindowEvent"
+        action="{!c.showBookingModalWindow}" />
+    <aura:handler name="createCaseEvent" event="c:createCaseEvent" action="{!c.showCaseCreateModalWindow}" />
 
-    <aura:attribute name="spinner" type="Boolean"/>
-    <aura:attribute name="selectedHotel" type="Hotel__c"/>
-    <aura:attribute name="hotels" type="Hotel__c[]"/>
+    <aura:attribute name="selectedHotel" type="Hotel__c" />
+    <aura:attribute name="sqlRequest" type="String"
+        default="SELECT Id, Name, Email__c, Description__c, Geolocation__Latitude__s, Geolocation__Longitude__s FROM Hotel__c" />
 
-    <aura:if isTrue="{!v.spinner}">
-        <div class="slds-card__body slds-card__body_inner">
-            <div role="status" class="slds-spinner slds-spinner_small">
-              <span class="slds-assistive-text">Loading</span>
-              <div class="slds-spinner__dot-a"></div>
-              <div class="slds-spinner__dot-b"></div>
-            </div>
-        </div>
-    </aura:if>
-    
-    <lightning:layout horizontalAlign="center" verticalAlign="start" multipleRows="false" pullToBoundary="small">
+    <aura:attribute name="additionalInformationSize" type="Integer" default="0" />
+    <aura:attribute name="mainInformationSize" type="Integer" default="12" />
 
-        <lightning:layoutItem size="6">
-            <c:HotelsTable hotels="{!v.hotels}"/>
+    <header>
+        <c:SiteHeader />
+    </header>
+
+    <lightning:layout>
+
+        <lightning:layoutItem size="{!v.additionalInformationSize}">
+            <aura:if isTrue="{!v.selectedHotel}">
+                <c:RoomsView hotel="{!v.selectedHotel}" />
+            </aura:if>
         </lightning:layoutItem>
 
-        <lightning:layoutItem size="6">
-            <c:FullHotelInfo hotel="{!v.selectedHotel}"/>
+        <lightning:layoutItem size="{!v.mainInformationSize}">
+            <c:hotelsViews sqpRequest="{!v.sqlRequest}" />
         </lightning:layoutItem>
 
     </lightning:layout>
 
-</aura:component>	
+    <div aura:id="modalWindowsPlace"></div>
+
+</aura:component>

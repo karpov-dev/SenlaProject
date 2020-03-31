@@ -4,7 +4,7 @@ public class ContactTriggerHandler extends TriggerHandler{
         List<Contact> newContacts = (List<Contact>)Trigger.new;
         List<String> newContactsEmails = ContactManager.getContactEmails(newContacts);
         if(ObjectsManager.emailIsUnique(newContactsEmails)){
-            //some code
+            
         } else {
             newContacts[0].addError('Email must be unique.');
         }

@@ -1,0 +1,121 @@
+<aura:component controller="ObjectController">
+
+    <aura:attribute name="windowTitle" type="String" default="Create Case"/>
+
+    <aura:attribute name="firstName" type="String" />
+    <aura:attribute name="lastName" type="String" />
+    <aura:attribute name="phone" type="String" />
+    <aura:attribute name="email" type="String" />
+    <aura:attribute name="description" type="String" />
+    <aura:attribute name="caseText" type="String" />
+
+    <aura:attribute name="creationStep" type="Integer" default="1" />
+
+    <aura:attribute name="dataWaiting" type="Boolean" />
+    <aura:attribute name="errorMessage" type="String" />
+    <aura:attribute name="nextButtonDisabled" type="Boolean" default="true" />
+    <aura:attribute name="nextButtonHidden" type="Boolean" />
+
+    <aura:attribute name="newCase" type="Case" default="{ 'sobjectType' : 'Case' }" />
+    <aura:attribute name="newLead" type="Lead" default="{ 'sobjectType' : 'Lead' }" />
+    <aura:attribute name="userInfo" type="Map" />
+
+
+    <div class="slds-m-around_xx-large">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium"
+            aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeWindow }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        {!v.windowTitle}
+                    </h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                    <aura:if isTrue="{!v.creationStep == 1}">
+                        <lightning:input type="email" label="Email" placeholder="youremail@gmil.com" value="{!v.email}"
+                            onchange="{!c.checkValidation}" />
+                        <lightning:input type="tel" label="Phone" value="{!v.phone}" onchange="{!c.checkValidation}"
+                            placeholder="+1234567890" />
+                        <lightning:input type="text" label="Description" placeholder="Description (min 10 symbols)"
+                            value="{!v.description}" onchange="{!c.checkValidation}" />
+                        <div class="slds-m-top_small">
+                            <lightning:textarea placeholder="Message (min 25 symbols)"
+                                value="{!v.caseText}" onchange="{!c.checkValidation}"/>
+                        </div>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.creationStep == 2}">
+                        <lightning:card title="Additional Information">
+                            <p class="slds-p-horizontal_small">
+                                <p>Мы не нашли пользователя с таким email в системе. Заполните еще несколько полей.</p>
+                                <lightning:input type="text" label="First Name" value="{!v.firstName}"
+                                    onchange="{!c.checkValidation}" />
+                                <lightning:input type="text" label="Last Name" value="{!v.lastName}"
+                                    onchange="{!c.checkValidation}" />
+                            </p>
+                        </lightning:card>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.creationStep == 3}">
+                        <lightning:card title="Check your information">
+
+                            <aura:if isTrue="{!v.firstName}">
+                                <p>First Name: {!v.firstName}</p>
+                            </aura:if>
+                            <aura:if isTrue="{!v.lastName}">
+                                <p>Last Name: {!v.lastName}</p>
+                            </aura:if>
+                            <aura:if isTrue="{!v.phone}">
+                                <p>Phone : {!v.phone}</p>
+                            </aura:if>
+                            <p>Email: {!v.email}</p>
+                            <p>Description: {!v.description}</p>
+                            <p>Text: {!v.caseText}</p>
+
+                        </lightning:card>
+                    </aura:if>
+
+                    <aura:if isTrue="{!and(v.creationStep == 4, not(v.errorMessage))}">
+                        <lightning:card title="Success!">
+                            <p class="slds-p-horizontal_small">
+                                Заявка упешно оставлена!
+                            </p>
+                        </lightning:card>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.dataWaiting}">
+                        <c:WaitingSpinner />
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.errorMessage}">
+                        <ui:message title="Oh..." severity="error" closable="true">
+                            {!v.errorMessage}
+                        </ui:message>
+                    </aura:if>
+
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <lightning:buttonGroup>
+                        <lightning:button variant="neutral" label="Cancel" onclick="{! c.closeWindow }" />
+                        <aura:if isTrue="{!v.nextButtonHidden}">
+                            <aura:set attribute="else">
+                                <lightning:button variant="brand" aura:id="nextButton" label="Next"
+                                    onclick="{! c.goToNextStep }" disabled="{!v.nextButtonDisabled}" />
+                            </aura:set>
+                        </aura:if>
+                    </lightning:buttonGroup>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+
+
+</aura:component>

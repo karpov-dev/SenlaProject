@@ -1,0 +1,1 @@
+<aura:event type="COMPONENT" description="This is event fire when we need create new case"/>

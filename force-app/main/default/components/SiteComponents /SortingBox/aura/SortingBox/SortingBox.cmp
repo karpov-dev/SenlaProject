@@ -1,0 +1,27 @@
+<aura:component>
+
+    <aura:handler name="init" value="{!this}" action="{!c.updateRequestString}"/>
+    <aura:handler name="change" value="{!v.hotelIdFilter}" action="{!c.updateRequestString}" />
+
+    <aura:attribute name="sqlRequestString" type="String"/>
+    <aura:attribute name="maxPriceFilter" type="Integer" default="0" />
+    <aura:attribute name="amountBadsFilter" type="Integer" default="0" />
+    <aura:attribute name="minimalRating" type="Integer" default="0" />
+    <aura:attribute name="hotelIdFilter" type="String" required="true" />
+    <aura:attribute name="startBookingDate" type="Date" />
+    <aura:attribute name="endBookingDate" type="Date" />
+
+    <aura:registerEvent name="sqlRequestChanged" type="c:requestOnChangeEvent" />
+
+    <lightning:card title="Filters">
+        <p class="slds-p-horizontal_small">
+            <lightning:slider label="Max Price" value="{!v.maxPriceFilter}" onchange="{!c.updateRequestString}" />
+            <lightning:slider label="Amount Bads" value="{!v.amountBadsFilter}" onchange="{!c.updateRequestString}"
+                max="6" />
+            <lightning:slider label="Rating" value="{!v.minimalRating}" onchange="{!c.updateRequestString}" max="10" />
+            <lightning:input type="date" value="{!v.startBookingDate}" label="Start Booking" onchange="{!c.updateRequestString}"/>
+            <lightning:input type="date" value="{!v.endBookingDate}" label="End Booking" onchange="{!c.updateRequestString}"/>
+        </p>
+    </lightning:card>
+
+</aura:component>

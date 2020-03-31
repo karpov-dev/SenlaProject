@@ -1,0 +1,119 @@
+<aura:component controller="ObjectController">
+
+    <aura:attribute name="roomId" type="String" required="true" />
+    <aura:attribute name="userInfo" type="Map" />
+    <aura:attribute name="errorMessage" type="String" />
+
+    <aura:attribute name="email" type="String" />
+    <aura:attribute name="firstName" type="String" />
+    <aura:attribute name="lastName" type="String" />
+    <aura:attribute name="phone" type="String" />
+    <aura:attribute name="startBooking" type="Date" />
+    <aura:attribute name="endBooking" type="Date" />
+
+    <aura:attribute name="creationStep" type="Integer" default="1" access="private" />
+    <aura:attribute name="nextButtonDisabled" type="Boolean" default="true" />
+    <aura:attribute name="dataWaiting" type="Boolean" />
+    <aura:attribute name="createCardResult" type="String" />
+
+    <aura:attribute name="newLead" type="Lead" default="{ 'sobjectType' : 'Lead' }" />
+    <aura:attribute name="newOpportunity" type="Opportunity" default="{ 'sobjectType' : 'Opportunity' }" />
+
+
+    <div class="slds-m-around_xx-large">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeWindow }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        Create Booking Card
+                    </h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                    <aura:if isTrue="{!v.creationStep == 1}">
+
+                        <lightning:card title="Contact Information">
+                            <lightning:input type="email" aura:id="inputEmail" value="{!v.email}" label="Email"
+                                onchange="{!c.fieldsValidity}" required="true" placeholder="youremail@gmil.com"/>
+                            <lightning:input type="tel" aura:id="phone" value="{!v.phone}" label="Phone"
+                                onchange="{!c.fieldsValidity}" required="true" placeholder="+123456789101"/>
+                        </lightning:card>
+
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.creationStep == 2}">
+
+                        <lightning:card title="Personal Information">
+                            <lightning:input type="text" aura:id="firstName" value="{!v.firstName}" label="First Name"
+                                onchange="{!c.fieldsValidity}" required="true" placeholder="First Name "/>
+                            <lightning:input type="text" aura:id="lastName" value="{!v.lastName}" label="Last Name"
+                                onchange="{!c.fieldsValidity}" required="true" placeholder="Last Name "/>
+                        </lightning:card>
+
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.creationStep == 3}">
+                        <lightning:card title="Booking Information">
+                            <lightning:input type="date" aura:id="startBooking" value="{!v.startBooking}"
+                                onchange="{!c.fieldsValidity}" label="Start Booking" required="true" placeholder="Start date"/>
+                            <lightning:input type="date" aura:id="endBooking" value="{!v.endBooking}"
+                                onchange="{!c.fieldsValidity}" label="End Booking" required="true" placeholder="End date"/>
+                        </lightning:card>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.creationStep == 4}">
+                        <lightning:card title="Check Information">
+                            <p class="slds-p-horizontal_small">
+                                <aura:if isTrue="{!v.firstName}">
+                                    <p>First Name: {!v.firstName}</p>
+                                </aura:if>
+                                <aura:if isTrue="{!v.lastName}">
+                                    <p>Last Name: {!v.lastName}</p>
+                                </aura:if>
+                                <p>Email: {!v.email}</p>
+                                <p>Phone: {!v.phone}</p>
+                                <p>Start booking: {!v.startBooking}</p>
+                                <p>End booking: {!v.endBooking}</p>
+                            </p>
+                        </lightning:card>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.creationStep == 5}">
+                        <lightning:card title="Result">
+                            <p class="slds-p-horizontal_small">
+                                <p>{!v.createCardResult}</p>
+                            </p>
+                        </lightning:card>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.dataWaiting}">
+                        <c:WaitingSpinner />
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.errorMessage}">
+                        <ui:message title="Oh..." severity="error" closable="true">
+                            {!v.errorMessage}
+                        </ui:message>
+                    </aura:if>
+
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <lightning:buttonGroup>
+                        <lightning:button variant="neutral" label="Cancel" onclick="{! c.closeWindow }" />
+                        <lightning:button variant="brand" label="Next" onclick="{! c.goToNextStep }"
+                            disabled="{!v.nextButtonDisabled}" />
+                    </lightning:buttonGroup>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+
+</aura:component>

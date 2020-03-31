@@ -1,0 +1,9 @@
+<aura:component>
+
+    <lightning:card title="Reviews">
+        <p class="slds-p-horizontal_small">
+            Здесь может быть ваш отзыв
+        </p>
+    </lightning:card>
+
+</aura:component>	

@@ -1,16 +1,15 @@
-public class LeadManager {
+public without sharing class LeadManager {
 
     @InvocableMethod
     public static void convertLeadToContact(List<Lead> leads){
         if(leads != null){
             ObjectsManager.checkEmailIsUniqueEnabled = false;
             List<Opportunity> oppForUpdate = new List<Opportunity>();
+            LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted=true LIMIT 1];
             for(Lead lead : leads){
                 List<Opportunity> leadOpp = [SELECT Id, Contact__c, LeadId__c FROM Opportunity WHERE LeadId__c =:lead.Id];
-                System.debug(leadOpp);
                 Database.LeadConvert converter = new Database.LeadConvert();
                 converter.setLeadId(lead.Id);
-                LeadStatus convertStatus = [SELECT Id, MasterLabel FROM LeadStatus WHERE IsConverted=true LIMIT 1];
                 converter.setConvertedStatus(convertStatus.MasterLabel);
                 Database.LeadConvertResult result = Database.convertLead(converter);
                 Id newContactId = result.getContactId();
@@ -35,6 +34,30 @@ public class LeadManager {
                 emails.add(lead.Email);
             }
             return emails;
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String getLeadIdByEmailAndPhone(String email, String phone){
+        List<Lead> leads =  [SELECT Id FROM Lead WHERE Email = :email OR Phone = :phone LIMIT 1];
+        if(leads.size() > 0){
+            return leads[0].Id;
+        } else {
+            return null;
+        }
+    }
+
+    public static String insertLeadAndGetId(Lead newLead){
+        if(newLead != null){
+            String email = newLead.Email;
+            insert newLead;
+            List<Lead> insertedLead = [SELECT Id FROM Lead WHERE Email = :email LIMIT 1];
+            if(insertedLead.size() > 0){
+                return insertedLead[0].Id;
+            } else {
+                return null;
+            }
         } else {
             throw new NullPointerException();
         }

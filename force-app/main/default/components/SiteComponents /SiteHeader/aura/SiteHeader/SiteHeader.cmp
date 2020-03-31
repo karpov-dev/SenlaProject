@@ -1,0 +1,10 @@
+<aura:component>
+
+    <aura:registerEvent name="createCaseEvent" type="c:createCaseEvent"/>
+
+    <div class="slds-grid slds-einstein-header slds-card__header">
+        <lightning:buttonGroup>
+            <lightning:button variant="brand" label="Create Case" onclick="{! c.fireCreateCaseEvent }"/>
+        </lightning:buttonGroup>
+    </div>
+</aura:component>

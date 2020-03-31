@@ -1,6 +1,6 @@
 <aura:component description="Card with information about one hotel">
 
-    <aura:registerEvent name="clickOnHotelCard" type="c:clickOnHotelCardEvent"/>
+    <aura:registerEvent name="changeSelectedHotelEvent" type="c:changeSelectedHotelEvent"/>
     <aura:attribute name="hotel" type="Hotel__c"/>
 
     <div class="slds-m-around_xx-small" onclick="{!c.getMoreInfo}">
@@ -17,7 +17,7 @@
                 <lightning:layout>
                     <img src="{!$Resource.HotelPreview}"/>
                     <div class="slds-m-left_small">
-                        <p>Description: {!v.hotel.Description__c}</p>
+                        <p>{!v.hotel.Description__c}</p>
                         <p>Email: {!v.hotel.Email__c}</p>
                     </div>
                 </lightning:layout>

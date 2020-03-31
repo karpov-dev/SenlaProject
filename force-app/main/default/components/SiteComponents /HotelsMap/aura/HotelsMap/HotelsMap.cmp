@@ -1,0 +1,24 @@
+<aura:component controller="HotelController">
+ 
+    <aura:attribute name="sqlRequest" type="String" required="true"/>
+    <aura:attribute name="selectedMarkerValue" type="String"/>
+
+    <aura:attribute name="hotels" type="Hotel__c[]" access="private"/>
+    <aura:attribute name="mapMarkers" type="Object[]" access="private"/>
+    <aura:attribute name="errorMessage" type="String" access="private"/>
+
+    <aura:registerEvent name="changeSelectedHotelEvent" type="c:changeSelectedHotelEvent"/>
+
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+
+    <lightning:map 
+        mapMarkers="{! v.mapMarkers }"
+        markersTitle="Hotels"
+        selectedMarkerValue="{!v.selectedMarkerValue}"
+        onmarkerselect="{!c.handleMarkerSelect}" />
+
+    <aura:if isTrue="{!v.errorMessage}">
+        Возникла ошибка при загрузке данных. {!v.errorMessage}
+    </aura:if>
+
+</aura:component>

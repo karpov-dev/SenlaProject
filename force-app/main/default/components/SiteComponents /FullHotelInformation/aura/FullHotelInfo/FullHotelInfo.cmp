@@ -1,15 +1,37 @@
 <aura:component controller="ProductController">
 
-    <aura:handler name="change" value="{!v.hotel}" action="{!c.getRooms}"/>
-    <aura:attribute name="hotel" type="Hotel__c"/>
-    <aura:attribute name="rooms" type="Product2[]"/>
+    <aura:handler name="change" value="{!v.hotel}" action="{!c.getRooms}" />
+    <aura:handler name="change" value="{!v.roomsSqlRequestString}" action="{!c.getRooms}" />
 
-    <lightning:card title="{!v.hotel.Name}">
-        <div class="slds-p-horizontal_small">
-            <p>Description: {!v.hotel.Description__c}</p>
-            <p>Email: {!v.hotel.Email__c}</p>
-            <c:RoomsTable rooms="{!v.rooms}"/>
-        </div>
-    </lightning:card>
+    <aura:handler name="init" value="{!this}" action="{!c.loadLastRequest}"/>
+    <aura:handler name="change" value="{!v.dataWaiting}" action="{!c.loadLastRequest}" />
 
-</aura:component>	
+    <aura:attribute name="hotel" type="Hotel__c" />
+    <aura:attribute name="rooms" type="Product2[]" />
+    <aura:attribute name="roomsSqlRequestString" type="String"
+        default="SELECT Id, Bads__c, Conveniences__c, Description, Name, Rating__c, Room_Address__c, (SELECT UnitPrice FROM PricebookEntries) FROM Product" />
+
+    <aura:attribute name="dataWaiting" type="Boolean" default="false" access="private" />
+    <aura:attribute name="errorMessage" type="String" access="private" />
+
+    <aura:registerEvent name="changeSelectedHotelEvent" type="c:changeSelectedHotelEvent" />
+
+    <aura:if isTrue="{!v.hotel}">
+        <lightning:card title="{!v.hotel.Name}">
+            <aura:set attribute="actions">
+                <lightning:buttonIcon iconName="utility:close" alternativeText="close" onclick="{!c.closeComponent}" />
+            </aura:set>
+            <div class="slds-p-horizontal_small">
+                <img src="{!$Resource.HotelPreview}" />
+                <p>Description: {!v.hotel.Description__c}</p>
+                <p>Email: {!v.hotel.Email__c}</p>
+                <c:RoomsTable rooms="{!v.rooms}" />
+            </div>
+        </lightning:card>
+    </aura:if>
+
+    <aura:if isTrue="{!v.errorMessage}">
+        При загрузке страницы возникла ошибка с текстом {!v.errorMessage}.
+    </aura:if>
+
+</aura:component>

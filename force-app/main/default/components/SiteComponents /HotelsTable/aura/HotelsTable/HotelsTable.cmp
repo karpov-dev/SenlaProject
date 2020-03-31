@@ -1,17 +1,46 @@
-<aura:component>
+<aura:component controller="HotelController">
 
-    <aura:attribute name="hotels" type="Hotel__c[]"/>
-    
-    <lightning:card>
-        <lightning:layout multipleRows="true">
-           <aura:iteration items="{!v.hotels}" var="hotel">
-                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
-                    <c:HotelCard hotel = "{!hotel}"/>
-                </lightning:layoutItem>
-            </aura:iteration>
-        </lightning:layout>
-    </lightning:card>
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:handler name="change" value="{!v.sqlRequest}" action="{!c.updateHotels}" />
+    <aura:handler name="change" value="{!v.requestIsLocked}" action="{!c.useLastReqest}" />
 
-    
-    
-</aura:component>	
+    <aura:attribute name="hotels" type="Hotel__c[]" />
+    <aura:attribute name="sqlRequest" type="String" required="true" />
+    <aura:attribute name="requestOffset" type="Integer" default="0" />
+    <aura:attribute name="requestStep" type="Integer" default="6" />
+    <aura:attribute name="errorMessage" type="String" />
+
+    <aura:attribute name="requestIsLocked" type="Boolean" default="false" />
+    <aura:attribute name="dataWaiting" type="Boolean" default="false" />
+    <aura:attribute name="recordsEnded" type="Boolean" default="false" />
+
+    <div aura:id="container" class="slds-scrollable_y" style="height:47rem;" onscroll="{!c.divOnScroll}">
+
+        <aura:if isTrue="{!v.hotels}">
+            <lightning:layout multipleRows="true">
+                <aura:iteration items="{!v.hotels}" var="hotel">
+                    <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                        largeDeviceSize="12">
+                        <c:HotelCard hotel="{!hotel}" />
+                    </lightning:layoutItem>
+                </aura:iteration>
+            </lightning:layout>
+            <aura:set attribute="else">
+                Извините, но на данный момент нет доступных отелей.
+            </aura:set>
+        </aura:if>
+
+        <aura:if isTrue="{!v.dataWaiting}">
+            Loading...
+            <aura:set attribute="else">
+                End
+            </aura:set>
+        </aura:if>
+
+        <aura:if isTrue="{!v.errorMessage}">
+            <p>При загрузке страницы возникла неполадка с сообщением: {!v.errorMessage}.</p>
+            <p>Перезагрузите страницу, или обратитесь к системному администратору.</p>
+        </aura:if>
+    </div>
+
+</aura:component>

@@ -1,8 +1,8 @@
-public class HotelController {
+public without sharing class HotelController {
     
-    @AuraEnabled(cacheable=true)
-    public static List<Hotel__c> getHotels(){
-        return [SELECT Id, Name, Email__c, Description__c, (SELECT Id, Name, Room_Address__c FROM Products__r) FROM Hotel__c];
+    @AuraEnabled
+    public static List<Hotel__c> getHotelsByRequestString(String requestString){
+        return HotelManager.getHotelsByRequestString(requestString);
     }
 
 }

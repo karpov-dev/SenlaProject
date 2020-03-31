@@ -1,34 +1,42 @@
 ({
-    init : function(component, event, helper) {
-        let action = component.get('c.getHotels');
-        action.setCallback(this, function(response){
-            let state = response.getState();
-            if(state === 'SUCCESS'){
-                component.set('v.hotels', response.getReturnValue());
-            } else if (state === 'INCOMPLETE'){
-                console.log('Response has some problems. Response state is INCOMPLETE');
-            } else if(state === 'ERROR'){
-                let errors = response.getError();
-                if(errors){
-                    if(errors[0] && errors[0].message){
-                        console.log('Response has errors: ' + errors[0].message);
-                    }
+    updateSelectedHotel : function(component, event, helper){
+        let selectedHotel = event.getParam('hotel');
+        component.set('v.selectedHotel', selectedHotel);
+        if(selectedHotel){
+            component.set('v.additionalInformationSize', 7);
+            component.set('v.mainInformationSize', 5);
+        } else {
+            component.set('v.additionalInformationSize', 0);
+            component.set('v.mainInformationSize', 12);
+        }
+    }, 
+
+    showBookingModalWindow : function(component, event, helper){
+        let room = event.getParam('room');
+        if(room){
+            $A.createComponent(
+                'c:CreateBookingCardModal',{
+                    'roomId' : room.Id,
+                    'isOpen' : true
+                },
+                (modalWindow, status, errorMessage) => {
+                    let body = component.find('modalWindowsPlace').get('v.body');
+                    body.push(modalWindow);
+                    component.find('modalWindowsPlace').set('v.body', body);
                 }
+            )
+        }
+    },
+
+    showCaseCreateModalWindow : function(component, event, helper){
+        $A.createComponent(
+            'c:CreateCase', 
+            {},
+            (modalWindow, status, errorMessage) => {
+                let body = component.find('modalWindowsPlace').get('v.body');
+                body.push(modalWindow);
+                component.find('modalWindowsPlace').set('v.body', body);
             }
-        });
-        $A.enqueueAction(action);
-    },
-
-    showSpinner : function(component, event, helper) {
-        component.set('v.spinner', true);
-    },
-
-    hideSpinner : function(component, event, helper){
-        component.set('v.spinner', false);
-    },
-
-    showMoreHotelInfo : function(component, event, helper){
-        component.set('v.selectedHotel', event.getParam('hotel'));
+        )
     }
-
 })

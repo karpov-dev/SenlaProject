@@ -1,15 +1,15 @@
 <aura:component>
 
-    <aura:attribute name="rooms" type="Product2[]"/>
+    <aura:attribute name="rooms" type="Product2[]" />
 
     <lightning:card title="Rooms">
-        <div class="slds-p-horizontal_small">
-            <aura:iteration items="{!v.rooms}" var="room">
-                <div class="slds-box">
-                    {!room.Name}
-                </div>
-            </aura:iteration>
+        <div class="slds-scrollable_y" style="height:25rem;">
+            <div class="slds-p-horizontal_small">
+                <aura:iteration items="{!v.rooms}" var="room">
+                    <c:RoomCard room="{!room}"/>
+                </aura:iteration>
+            </div>
         </div>
     </lightning:card>
 
-</aura:component>	
+</aura:component>
