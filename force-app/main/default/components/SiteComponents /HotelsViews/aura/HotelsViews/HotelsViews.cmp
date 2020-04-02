@@ -3,7 +3,7 @@
     <aura:attribute name="sqpRequest" type="String" />
     <aura:attribute name="mapEnabled" type="Boolean" />
 
-    <lightning:card title="Hotels">
+    <lightning:card title="{!$Label.c.Hotels}">
         <aura:set attribute="actions">
             <lightning:input type="toggle" label="Use Map" checked="{!v.mapEnabled}" />
         </aura:set>

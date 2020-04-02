@@ -1,14 +1,9 @@
 <aura:component controller="HotelController">
 
-    <aura:handler name="changeSelectedHotelEvent" event="c:changeSelectedHotelEvent"
-        action="{!c.updateSelectedHotel}" />
-    <aura:handler name="showBookingModalWindowEvent" event="c:showBookingModalWindowEvent"
-        action="{!c.showBookingModalWindow}" />
-    <aura:handler name="createCaseEvent" event="c:createCaseEvent" action="{!c.showCaseCreateModalWindow}" />
+    <aura:handler name="changeSelectedHotelEvent" event="c:changeSelectedHotelEvent" action="{!c.updateSelectedHotel}" />
 
     <aura:attribute name="selectedHotel" type="Hotel__c" />
-    <aura:attribute name="sqlRequest" type="String"
-        default="SELECT Id, Name, Email__c, Description__c, Geolocation__Latitude__s, Geolocation__Longitude__s FROM Hotel__c" />
+    <aura:attribute name="sqlRequest" type="String" default="SELECT Id, Name, Email__c, Description__c, Geolocation__Latitude__s, Geolocation__Longitude__s FROM Hotel__c" />
 
     <aura:attribute name="additionalInformationSize" type="Integer" default="0" />
     <aura:attribute name="mainInformationSize" type="Integer" default="12" />
@@ -30,7 +25,5 @@
         </lightning:layoutItem>
 
     </lightning:layout>
-
-    <div aura:id="modalWindowsPlace"></div>
 
 </aura:component>

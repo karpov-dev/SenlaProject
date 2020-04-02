@@ -1,0 +1,17 @@
+<aura:component>
+
+    <aura:attribute name="title" type="String" default="Booking"/>
+    <aura:attribute name="variant" type="String" default="button"/>
+    <aura:attribute name="roomId" type="String" required="true"/>
+
+    <aura:if isTrue="{!v.variant == 'button'}">
+        <lightning:button variant="neutral" label="{!v.title}" onclick="{! c.createBookingCard }"/>
+    </aura:if>
+
+    <aura:if isTrue="{!v.variant == 'icon'}">
+        <lightning:buttonIcon iconName="utility:add" variant="border-filled" onclick="{! c.createBookingCard }" />
+    </aura:if>
+
+    <div aura:id="modalWindowsPlace"></div>
+
+</aura:component>	

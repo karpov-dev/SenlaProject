@@ -3,16 +3,18 @@
     <aura:attribute name="room" type="Product2" required="true" />
 
     <aura:registerEvent name="changedSelectedRoomEvent" type="c:changedSelectedRoomEvent" />
-    <aura:registerEvent name="showBookingModalWindowEvent" type="c:showBookingModalWindowEvent"/>
 
     <aura:if isTrue="{!v.room}">
-        <div class="slds-box slds-m-top_xx-small" onclick="{!c.fireClickEvent}">
+        <div class="slds-box slds-m-top_xx-small">
             <lightning:card title="{!v.room.Name}">
                 <aura:set attribute="actions">
-                    <lightning:button variant="brand" label="Booking" onclick="{! c.fireBookingEvent }" />
+                    <lightning:buttonGroup>
+                        <lightning:button variant="neutral" label="More" onclick="{! c.fireClickEvent }" />
+                        <c:CreateBookingCard roomId="{!v.room.Id}" variant="icon" />
+                    </lightning:buttonGroup>
                 </aura:set>
                 <p class="slds-p-horizontal_small">
-                    <p>Price: {!v.room.PricebookEntries[0].UnitPrice}</p>
+                    Price: {!v.room.PricebookEntries[0].UnitPrice}
                 </p>
             </lightning:card>
         </div>

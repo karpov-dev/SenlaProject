@@ -11,32 +11,8 @@
         }
     }, 
 
-    showBookingModalWindow : function(component, event, helper){
-        let room = event.getParam('room');
-        if(room){
-            $A.createComponent(
-                'c:CreateBookingCardModal',{
-                    'roomId' : room.Id,
-                    'isOpen' : true
-                },
-                (modalWindow, status, errorMessage) => {
-                    let body = component.find('modalWindowsPlace').get('v.body');
-                    body.push(modalWindow);
-                    component.find('modalWindowsPlace').set('v.body', body);
-                }
-            )
-        }
-    },
-
-    showCaseCreateModalWindow : function(component, event, helper){
-        $A.createComponent(
-            'c:CreateCase', 
-            {},
-            (modalWindow, status, errorMessage) => {
-                let body = component.find('modalWindowsPlace').get('v.body');
-                body.push(modalWindow);
-                component.find('modalWindowsPlace').set('v.body', body);
-            }
-        )
+    changeCurrency : function(component, event, helper){
+        let currencyType = event.getParam('currencyType');
+        
     }
 })

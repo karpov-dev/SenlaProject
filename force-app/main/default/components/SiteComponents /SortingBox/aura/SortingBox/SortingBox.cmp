@@ -13,14 +13,14 @@
 
     <aura:registerEvent name="sqlRequestChanged" type="c:requestOnChangeEvent" />
 
-    <lightning:card title="Filters">
+    <lightning:card title="{!$A.Label.c.Filters}">
         <p class="slds-p-horizontal_small">
-            <lightning:slider label="Max Price" value="{!v.maxPriceFilter}" onchange="{!c.updateRequestString}" />
-            <lightning:slider label="Amount Bads" value="{!v.amountBadsFilter}" onchange="{!c.updateRequestString}"
+            <lightning:slider label="{!$Label.c.Max_Price}" value="{!v.maxPriceFilter}" onchange="{!c.updateRequestString}" />
+            <lightning:slider label="{!$Label.c.Amount_Bads}" value="{!v.amountBadsFilter}" onchange="{!c.updateRequestString}"
                 max="6" />
-            <lightning:slider label="Rating" value="{!v.minimalRating}" onchange="{!c.updateRequestString}" max="10" />
-            <lightning:input type="date" value="{!v.startBookingDate}" label="Start Booking" onchange="{!c.updateRequestString}"/>
-            <lightning:input type="date" value="{!v.endBookingDate}" label="End Booking" onchange="{!c.updateRequestString}"/>
+            <lightning:slider label="{!$Label.c.Rating}" value="{!v.minimalRating}" onchange="{!c.updateRequestString}" max="10" />
+            <lightning:input type="date" value="{!v.startBookingDate}" label="{!$Label.c.Start_Booking}" onchange="{!c.updateRequestString}"/>
+            <lightning:input type="date" value="{!v.endBookingDate}" label="{!$Label.c.End_Booking}" onchange="{!c.updateRequestString}"/>
         </p>
     </lightning:card>
 

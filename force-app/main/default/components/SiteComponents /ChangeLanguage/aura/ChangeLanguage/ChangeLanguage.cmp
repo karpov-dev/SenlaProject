@@ -1,0 +1,8 @@
+<aura:component>
+
+    <lightning:buttonMenu iconName="utility:world" variant="border" onselect="{! c.foo }">
+        <lightning:menuItem value="Ru" label="RUSSIAN" />
+        <lightning:menuItem value="En" label="ENGLISH" />
+    </lightning:buttonMenu>
+
+</aura:component>	

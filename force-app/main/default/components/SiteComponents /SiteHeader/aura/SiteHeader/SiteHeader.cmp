@@ -1,10 +1,12 @@
 <aura:component>
-
-    <aura:registerEvent name="createCaseEvent" type="c:createCaseEvent"/>
-
     <div class="slds-grid slds-einstein-header slds-card__header">
         <lightning:buttonGroup>
-            <lightning:button variant="brand" label="Create Case" onclick="{! c.fireCreateCaseEvent }"/>
+            <lightning:buttonMenu onselect="{! c.fireResponseChangeCurrency }" variant="border" alternativeText="Select currency" iconName="utility:currency">
+                <lightning:menuItem value="USD" label="USD" />
+                <lightning:menuItem value="BYN" label="BUN" />
+            </lightning:buttonMenu>
+            <c:CreateCase variant="icon"/>
+            <c:ChangeLanguage/>
         </lightning:buttonGroup>
     </div>
 </aura:component>
