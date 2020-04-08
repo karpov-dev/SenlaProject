@@ -36,12 +36,16 @@ public with sharing class LeadManager_Test {
         Lead lead = LeadFactory.createLead();
         insert lead;
 
-        String Id = LeadManager.getLeadIdByEmailAndPhone(lead.Email, lead.Phone);
+        Test.startTest();
+            String Id = LeadManager.getLeadIdByEmailAndPhone(lead.Email, lead.Phone);
+        Test.stopTest();
         System.assertEquals(lead.Id, Id);
     }
 
     @isTest static void test_getLeadIdByEmailAndPhone_NullData(){
-        String Id = LeadManager.getLeadIdByEmailAndPhone(null, null);
+        Test.startTest();
+            String Id = LeadManager.getLeadIdByEmailAndPhone(null, null);
+        Test.stopTest();
         System.assertEquals(null, Id);
     }
 
@@ -49,7 +53,9 @@ public with sharing class LeadManager_Test {
         String wrongEmail = 'wrongEmail@mail.com';
         String wrongPhone = '369852147';
 
-        String Id = LeadManager.getLeadIdByEmailAndPhone(wrongEmail, wrongPhone);
+        Test.startTest();
+            String Id = LeadManager.getLeadIdByEmailAndPhone(wrongEmail, wrongPhone);
+        Test.stopTest();
         System.assertEquals(null, Id);
     }
 
@@ -58,7 +64,9 @@ public with sharing class LeadManager_Test {
         insert lead;
         String wrongEmail = 'wrongEmail@mail.com';
 
-        String Id = LeadManager.getLeadIdByEmailAndPhone(wrongEmail, lead.Phone);
+        Test.startTest();
+            String Id = LeadManager.getLeadIdByEmailAndPhone(wrongEmail, lead.Phone);
+        Test.stopTest();
         System.assertEquals(lead.Id, Id);
     }
 
@@ -67,12 +75,16 @@ public with sharing class LeadManager_Test {
         leads.add(LeadFactory.createLead());
         insert leads;
 
-        List<String> emails = LeadManager.getLeadEmails(leads);
+        Test.startTest();
+            List<String> emails = LeadManager.getLeadEmails(leads);
+        Test.stopTest();
         System.assertEquals(leads[0].Email, emails[0]);
     }
 
     @isTest static void test_getLeadEmails_NullData(){
-        List<String> emails = LeadManager.getLeadEmails(null);
+        Test.startTest();
+            List<String> emails = LeadManager.getLeadEmails(null);
+        Test.stopTest();
         System.assertEquals(null, null);
     }
 

@@ -17,6 +17,18 @@
                     if(attachments && attachments.length > 0){
                         component.set('v.photoAttachmentId', attachments[0].Id);
                     }
+                } else if(state === "ERROR" || state === "INCOMPLETE"){
+                    console.log('response is ' + state);
+                    if(state == 'ERROR'){
+                        let errors = response.getError();
+                        if (errors) {
+                            if (errors[0] && errors[0].message) {
+                                console.log("Error message: " + errors[0].message);
+                            } else{
+                                console.log("Unknown error");
+                            }
+                        }
+                    }
                 }
             });
 

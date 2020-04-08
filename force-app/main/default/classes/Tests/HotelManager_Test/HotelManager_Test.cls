@@ -6,7 +6,9 @@ public with sharing class HotelManager_Test {
         insert hotel;
         String requestString = 'SELECT Id FROM Hotel__c';
 
-        List<Hotel__c> hotels = HotelManager.getHotelsByRequestString(requestString);
+        Test.startTest();
+            List<Hotel__c> hotels = HotelManager.getHotelsByRequestString(requestString);
+        Test.stopTest();
         System.assertEquals(hotel.Id, hotels[0].Id);
     }
 
@@ -15,7 +17,9 @@ public with sharing class HotelManager_Test {
         insert hotel;
         String wrongRequestString = 'SELECT Id FROM Hotel__';
 
-        List<Hotel__c> hotels = HotelManager.getHotelsByRequestString(wrongRequestString);
+        Test.startTest();
+            List<Hotel__c> hotels = HotelManager.getHotelsByRequestString(wrongRequestString);
+        Test.stopTest();
         System.assertEquals(null, hotels);
     }
 
@@ -24,7 +28,9 @@ public with sharing class HotelManager_Test {
         insert hotel;
         String nullRequestString = null;
 
-        List<Hotel__c> hotels = HotelManager.getHotelsByRequestString(nullRequestString);
+        Test.startTest();
+            List<Hotel__c> hotels = HotelManager.getHotelsByRequestString(nullRequestString);
+        Test.stopTest();
         System.assertEquals(null, hotels);
     }
 

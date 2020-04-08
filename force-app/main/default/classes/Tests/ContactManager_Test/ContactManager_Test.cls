@@ -6,13 +6,17 @@ public with sharing class ContactManager_Test {
         contacts.add(ContactFactory.createContact());
         insert contacts;
 
-        List<String> emails = ContactManager.getContactEmails(contacts);
+        Test.startTest();
+            List<String> emails = ContactManager.getContactEmails(contacts);
+        Test.stopTest();
         System.assertEquals(1, emails.size());
         System.assertEquals(contacts[0].Email, emails[0]);
     }
 
     @isTest static void test_GetContactEmails_NullContact(){
-        List<String> emails = ContactManager.getContactEmails(null);
+        Test.startTest();
+            List<String> emails = ContactManager.getContactEmails(null);
+        Test.stopTest();   
         System.assertEquals(null, emails);
     }
 
@@ -20,7 +24,9 @@ public with sharing class ContactManager_Test {
         Contact contact = ContactFactory.createContact();
         insert contact;
 
-        Id contactId = ContactManager.getContactIdByEmailAndPhone(contact.Email, contact.Phone);
+        Test.startTest();
+            Id contactId = ContactManager.getContactIdByEmailAndPhone(contact.Email, contact.Phone);
+        Test.stopTest();
         System.assertEquals(contact.Id, contactId);
     }
 
@@ -29,7 +35,9 @@ public with sharing class ContactManager_Test {
         Contact contact = ContactFactory.createContact();
         insert contact;
 
-        Id contactId = ContactManager.getContactIdByEmailAndPhone(contact.Email, wrongPhone);
+        Test.startTest();
+            Id contactId = ContactManager.getContactIdByEmailAndPhone(contact.Email, wrongPhone);
+        Test.stopTest();
         System.assertEquals(contact.Id, contactId);
     }
 
@@ -38,7 +46,9 @@ public with sharing class ContactManager_Test {
         Contact contact = ContactFactory.createContact();
         insert contact;
 
-        Id contactId = ContactManager.getContactIdByEmailAndPhone(wrongEmail, contact.Phone);
+        Test.startTest();
+            Id contactId = ContactManager.getContactIdByEmailAndPhone(wrongEmail, contact.Phone);
+        Test.stopTest();
         System.assertEquals(contact.Id, contactId);
     }
 
@@ -48,12 +58,16 @@ public with sharing class ContactManager_Test {
         Contact contact = ContactFactory.createContact();
         insert contact;
 
-        Id contactId = ContactManager.getContactIdByEmailAndPhone(wrongEmail, wrongPhone);
+        Test.startTest();
+            Id contactId = ContactManager.getContactIdByEmailAndPhone(wrongEmail, wrongPhone);
+        Test.stopTest();
         System.assertEquals(null, contactId);
     }
 
     @isTest static void test_getContactIdByEmailAndPhone_NullData(){
-        Id contactId = ContactManager.getContactIdByEmailAndPhone(null, null);
+        Test.startTest();
+            Id contactId = ContactManager.getContactIdByEmailAndPhone(null, null);
+        Test.stopTest();
         System.assertEquals(null, contactId);
     }
 

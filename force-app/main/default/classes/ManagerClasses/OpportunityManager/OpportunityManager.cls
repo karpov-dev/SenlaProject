@@ -8,16 +8,18 @@ public without sharing class OpportunityManager {
             }
             return false;
         } else {
-            throw new NullPointerException();
+            return false;
         }
     }
 
     public static void insertOpportunity(Opportunity opportunity){
         if(opportunity != null){
-            insert opportunity;
-        } else {
-            throw new NullPointerException();
-        }
+            try {
+                insert opportunity;
+            } catch (DmlException e) {
+                
+            }
+        } 
     }
 
 }
