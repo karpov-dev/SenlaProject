@@ -1,7 +1,9 @@
 <aura:component description="Card with information about one hotel">
-
-    <aura:registerEvent name="changeSelectedHotelEvent" type="c:changeSelectedHotelEvent"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.displayedHotelDescription}" action="{!c.changeDisplayedDescription}"/>
     <aura:attribute name="hotel" type="Hotel__c"/>
+    <aura:attribute name="displayedHotelDescription" type="String"/>
+    <aura:registerEvent name="changeSelectedHotelEvent" type="c:changeSelectedHotelEvent"/>
 
     <div class="slds-m-around_xx-small" onclick="{!c.getMoreInfo}">
         <div class="slds-box">
@@ -15,15 +17,13 @@
             </header>
             <div class="slds-m-top_xx-small">
                 <lightning:layout>
-                    <img src="{!$Resource.HotelPreview}"/>
+                    <c:AttachmentGallery ownerId="{!v.hotel.Id}"/>
                     <div class="slds-m-left_small">
-                        <p>{!v.hotel.Description__c}</p>
-                        <p>Email: {!v.hotel.Email__c}</p>
+                        <p>{!v.displayedHotelDescription}</p>
+                        <p>{!$Label.c.Email}: {!v.hotel.Email__c}</p>
                     </div>
                 </lightning:layout>
-            </div>           
+            </div>             
         </div>
     </div>
-
-
 </aura:component>	

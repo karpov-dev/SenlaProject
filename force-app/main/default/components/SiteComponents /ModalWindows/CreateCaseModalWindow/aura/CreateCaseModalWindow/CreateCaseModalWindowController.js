@@ -1,6 +1,6 @@
 ({
     closeWindow: function (component, event, helper) {
-        component.destroy();
+        component.set('v.isOpen', false);
     },
 
     goToNextStep: function (component, event, helper) {

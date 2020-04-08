@@ -1,6 +1,7 @@
 ({
    closeWindow: function (component, event, helper) {
-      component.destroy();
+      component.set('v.creationStep', 5);
+      component.set('v.isOpen', false);      
    },
 
    goToNextStep: function (component, event, helper) {
@@ -87,5 +88,5 @@
             break;
       }
       component.set('v.nextButtonDisabled', buttonDisabled);
-   }
+   }, 
 })

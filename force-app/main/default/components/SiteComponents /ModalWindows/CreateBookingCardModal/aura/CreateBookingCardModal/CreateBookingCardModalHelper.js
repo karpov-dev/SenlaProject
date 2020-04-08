@@ -92,6 +92,7 @@
         opportunity.Open_Date__c = component.get('v.startBooking');
         opportunity.CloseDate = component.get('v.endBooking');
         opportunity.Product__c = component.get('v.roomId');
+        opportunity.Price__c = component.get('v.pricebookEntry.UnitPrice');
         return opportunity;
     },
 
@@ -161,10 +162,10 @@
 
     createErrorMessage: function (component, response=null) {
         let errorMessage = 'При создании запроса возникла ошибка. Перезагрузите страницу или обратитесь в системному администратору. Текст ошибки: ';
-        if(response != null){
+        if (response != null) {
             let errors = response.getError();
-            if(errors){
-                if(errors[0] && errors[0].message){
+            if (errors) {
+                if (errors[0] && errors[0].message) {
                     errorMessage += errors[0].message;
                 } else {
                     errorMessage += 'Unknown error.';

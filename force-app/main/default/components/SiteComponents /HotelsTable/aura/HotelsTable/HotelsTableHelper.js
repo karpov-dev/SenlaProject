@@ -32,7 +32,6 @@
                 component.set('v.hotels', allHotels);
                 component.set('v.requestOffset', component.get('v.requestOffset') + serverResponse.length);
                 component.set('v.dataWaiting', false);
-                component.set('v.requestIsLocked', false);
 
             } else if(state === 'INCOMPLETE'){
                 component.set('v.errorMessage', "'Response is INCOMPLETE'");

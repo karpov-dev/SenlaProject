@@ -1,27 +1,10 @@
 ({
-    init: function (component, event, helper) {
+    doInit: function (component, event, helper) {
         helper.loadData(component, component.get('v.sqlRequest'));
     },
 
-    updateHotels: function (component, event, helper) {
-        if (!component.get('v.requestIsLocked')) {
-            component.set('v.requestIsLocked', true);
-            component.set('v.dataWaiting', true);
-            let reset = true;
-            helper.loadData(component, component.get('v.sqlRequest'), reset);
-        }
-    },
-
-    useLastReqest: function (component, event, helper) {
-        if (!component.get('v.requestIsLocked')) {
-            component.set('v.dataWaiting', true);
-            let reset = true;
-            helper.loadData(component, component.get('v.sqlRequest'), reset);
-        }
-    },
-
     divOnScroll: function (component, event, helper) {
-        const PIXELS_TO_START_DATA_LOAD = 150;
+        const PIXELS_TO_START_DATA_LOAD = 5;
 
         if (!component.get('v.dataWaiting') && !component.get('v.recordsEnded')) {
             component.set('v.dataWaiting', true);

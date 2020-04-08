@@ -1,0 +1,12 @@
+<aura:component controller="PricebookEntryController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="rates" type="Map"/>
+    <aura:attribute name="currencyNameList" type="List"/>
+    <aura:registerEvent name="chengedCurrency" type="c:chengedCurrencyEvent"/>
+    
+    <lightning:buttonMenu onselect="{! c.fireCurrencyRate }" variant="border" alternativeText="Select currency" iconName="utility:currency">
+        <aura:iteration items="{!v.currencyNameList}" var="currencyName">
+            <lightning:menuItem label="{!currencyName}" value="{!currencyName}" />
+        </aura:iteration>
+    </lightning:buttonMenu>
+</aura:component>

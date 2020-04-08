@@ -1,15 +1,14 @@
 <aura:component>
-
     <aura:attribute name="rooms" type="Product2[]" />
+    <aura:attribute name="currentRate" type="Map"/> 
 
-    <lightning:card title="Rooms">
-        <div class="slds-scrollable_y" style="height:25rem;">
+    <lightning:card title="{!$Label.c.Rooms_Title}">
+        <div class="slds-scrollable_y" style="max-height:36rem;">
             <div class="slds-p-horizontal_small">
                 <aura:iteration items="{!v.rooms}" var="room">
-                    <c:RoomCard room="{!room}"/>
+                    <c:RoomCard roomId="{!room.Id}" priceBookEntry="{!room.PricebookEntries[0]}" currentRate="{!v.currentRate}"/>
                 </aura:iteration>
             </div>
         </div>
     </lightning:card>
-
 </aura:component>

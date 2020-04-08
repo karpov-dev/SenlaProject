@@ -1,29 +1,24 @@
 <aura:component controller="HotelController">
-
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="changeSelectedHotelEvent" event="c:changeSelectedHotelEvent" action="{!c.updateSelectedHotel}" />
-
+    <aura:handler name="chengedCurrency" event="c:chengedCurrencyEvent" action="{!c.setNewRate}"/>
+    <aura:handler name="openHotelInMap" event="c:openMapEvent" action="{!c.setMapMarker}"/>
+    <aura:attribute name="currentRate" type="Map" default="{}"/>
     <aura:attribute name="selectedHotel" type="Hotel__c" />
-    <aura:attribute name="sqlRequest" type="String" default="SELECT Id, Name, Email__c, Description__c, Geolocation__Latitude__s, Geolocation__Longitude__s FROM Hotel__c" />
-
     <aura:attribute name="additionalInformationSize" type="Integer" default="0" />
     <aura:attribute name="mainInformationSize" type="Integer" default="12" />
 
     <header>
         <c:SiteHeader />
     </header>
-
     <lightning:layout>
-
         <lightning:layoutItem size="{!v.additionalInformationSize}">
             <aura:if isTrue="{!v.selectedHotel}">
-                <c:RoomsView hotel="{!v.selectedHotel}" />
+                <c:RoomsView hotel="{!v.selectedHotel}" currentRate="{!v.currentRate}"/>
             </aura:if>
         </lightning:layoutItem>
-
         <lightning:layoutItem size="{!v.mainInformationSize}">
-            <c:hotelsViews sqpRequest="{!v.sqlRequest}" />
+            <c:hotelsViews aura:id="HotelsView"/>
         </lightning:layoutItem>
-
     </lightning:layout>
-
 </aura:component>

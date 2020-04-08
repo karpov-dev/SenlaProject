@@ -9,7 +9,7 @@ public without sharing class ObjectController {
         }
     }
 
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static Boolean roomIsFree(Date startDate, Date endDate, String roomId){
         if(startDate != null && endDate != null && roomId != null){
             return OpportunityManager.hasOpportunityByDateForProduct(startDate, endDate, roomId);

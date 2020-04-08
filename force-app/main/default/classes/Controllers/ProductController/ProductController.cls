@@ -5,4 +5,14 @@ public without sharing class ProductController {
         return ProductManager.getProductsByRequestString(requestString);
     }
 
+    @AuraEnabled(cacheable=true)
+    public static Integer getFieldMaxValue(String fieldName){
+        return ProductManager.getMaxFieldInternalValue(fieldName);
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static Decimal getMaxUnitPrice(){
+        return ProductManager.getMaxUnitPrice();
+    }
+
 }

@@ -1,20 +1,16 @@
 <aura:component>
-
     <aura:attribute name="title" type="String" default="Create Case"/>
     <aura:attribute name="variant" type="String" default="button"/>
+    <aura:attribute name="modalIsOpen" type="Boolean"/>
 
     <aura:if isTrue="{!v.variant == 'button'}">
         <lightning:button variant="neutral" label="{!v.title}" onclick="{! c.createCase }"/>
     </aura:if>
-
     <aura:if isTrue="{!v.variant == 'link'}">
         <a onclick="{!c.createCase}">{!v.title}</a>
     </aura:if>
-
     <aura:if isTrue="{!v.variant == 'icon'}">
-        <lightning:buttonIcon iconName="utility:help_center" variant="border-filled" onclick="{! c.createCase }" alternativeText="Create Case" />
+        <lightning:buttonIcon iconName="utility:help_center" variant="border-filled" onclick="{! c.createCase }"/>
     </aura:if>
-
-    <div aura:id="modalWindowPlace"/>
-
+    <c:CreateCaseModalWindow isOpen="{!v.modalIsOpen}"/>
 </aura:component>	

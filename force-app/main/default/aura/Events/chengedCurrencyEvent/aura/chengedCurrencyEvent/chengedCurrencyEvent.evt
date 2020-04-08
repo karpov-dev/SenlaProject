@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event template">
+    <aura:attribute name="currency" type="String"/>
+    <aura:attribute name="rate" type="Decimal"/>
+</aura:event>

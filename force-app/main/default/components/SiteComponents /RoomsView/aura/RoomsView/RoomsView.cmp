@@ -1,10 +1,9 @@
 <aura:component>
-
+    <aura:handler name="change" value="{!v.hotel}" action="{!c.updateHotel}"/>
     <aura:handler name="sqlRequestChanged" event="c:requestOnChangeEvent" action="{!c.updateSortingBoxRequestResult}" />
     <aura:handler name="changedSelectedRoomEvent" event="c:changedSelectedRoomEvent" action="{!c.updateSelectedRoom}" />
-    <aura:handler name="change" value="{!v.hotel}" action="{!c.updateHotel}"/>
-
     <aura:attribute name="hotel" type="Hotel__c" />
+    <aura:attribute name="currentRate" type="Map"/>
     <aura:attribute name="sortingBoxRequestResult" type="String" />
     <aura:attribute name="selectedRoom" type="Product2" />
 
@@ -12,20 +11,13 @@
         <c:FullRoomInfo room="{!v.selectedRoom}"/>
         <aura:set attribute="else">
             <lightning:layout>
-
                 <lightning:layoutItem size="4" padding="horizontal-small">
-                    <c:SortingBox hotelIdFilter="{!v.hotel.Id}" />
+                    <c:SortingBox hotelIdFilter="{!v.hotel.Id}" currentRate="{!v.currentRate}"/>
                 </lightning:layoutItem>
-
                 <lightning:layoutItem size="8" padding="horizontal-small">
-                    <c:FullHotelInfo hotel="{!v.hotel}" roomsSqlRequestString="{!v.sortingBoxRequestResult}" />
+                    <c:FullHotelInfo hotel="{!v.hotel}" roomsSqlRequestString="{!v.sortingBoxRequestResult}" currentRate="{!v.currentRate}"/>
                 </lightning:layoutItem>
-
             </lightning:layout>
-
         </aura:set>
     </aura:if>
-
-
-
 </aura:component>

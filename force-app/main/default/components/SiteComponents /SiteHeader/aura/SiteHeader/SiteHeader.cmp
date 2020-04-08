@@ -1,12 +1,9 @@
 <aura:component>
     <div class="slds-grid slds-einstein-header slds-card__header">
         <lightning:buttonGroup>
-            <lightning:buttonMenu onselect="{! c.fireResponseChangeCurrency }" variant="border" alternativeText="Select currency" iconName="utility:currency">
-                <lightning:menuItem value="USD" label="USD" />
-                <lightning:menuItem value="BYN" label="BUN" />
-            </lightning:buttonMenu>
-            <c:CreateCase variant="icon"/>
+            <c:ChangeCurrency/>
             <c:ChangeLanguage/>
+            <c:CreateCase variant="icon"/>
         </lightning:buttonGroup>
     </div>
 </aura:component>

@@ -15,24 +15,28 @@ public without sharing class ObjectsManager {
                 return true;
             }
         } else{
-            throw new NullPointerException();
+            return null;
         }
     }
 
     public static Map<String,String> getContactInformationOwner(String email, String phone){
-        Map<String,String> searchResult = new Map<String,String>();
-        String leadId = LeadManager.getLeadIdByEmailAndPhone(email, phone);
-        if(leadId != null){
-            searchResult.put('LEAD', leadId);
-        } else {
-            String contactId = ContactManager.getContactIdByEmailAndPhone(email, phone);
-            if(contactId != null){
-                searchResult.put('CONTACT', contactId);
+        if(email != null && phone != null){
+            Map<String,String> searchResult = new Map<String,String>();
+            String leadId = LeadManager.getLeadIdByEmailAndPhone(email, phone);
+            if(leadId != null){
+                searchResult.put('LEAD', leadId);
             } else {
-                searchResult.put('NULL', 'NULL');
+                String contactId = ContactManager.getContactIdByEmailAndPhone(email, phone);
+                if(contactId != null){
+                    searchResult.put('CONTACT', contactId);
+                } else {
+                    searchResult.put('NULL', 'NULL');
+                }
             }
+            return searchResult;
+        } else {
+            return null;
         }
-        return searchResult;
     }
 
 }

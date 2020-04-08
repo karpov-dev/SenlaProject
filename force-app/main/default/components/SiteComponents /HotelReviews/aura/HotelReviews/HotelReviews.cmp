@@ -1,9 +1,33 @@
-<aura:component>
+<aura:component controller="ReviewController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.hotelId}" action="{!c.reloadData}"/>
+    <aura:attribute name="hotelId" type="String" />
+    <aura:attribute name="reviews" type="Hotel_Review__c[]" />
+    <aura:attribute name="requestOffset" type="Integer" default="0" />
+    <aura:attribute name="loadStep" type="Integer" default="6" />
+    <aura:attribute name="dataWaiting" type="Boolean" />
+    <aura:attribute name="recordsEnded" type="Boolean" />
 
-    <lightning:card title="Reviews">
+    <lightning:card title="{!$Label.c.Hotel_Review_Header}">
         <p class="slds-p-horizontal_small">
-            Здесь может быть ваш отзыв
+            <aura:if isTrue="{!v.reviews}">
+                <lightning:layout multipleRows="true">
+                    <aura:iteration items="{!v.reviews}" var="review">
+                        <lightning:layoutItem flexibility="auto" size="12">
+                            <c:HotelReviewCard review="{!review}"/>
+                        </lightning:layoutItem>
+                    </aura:iteration>
+                </lightning:layout>
+                <aura:set attribute="else">
+                    {!$Label.c.Not_Hotel_Review}
+                </aura:set>
+            </aura:if>
+            <aura:if isTrue="{!v.dataWaiting}">
+                {!$Label.c.Loading}
+                <aura:set attribute="else">
+                    {!$Label.c.Content_End}
+                </aura:set>
+            </aura:if>
         </p>
     </lightning:card>
-
-</aura:component>	
+</aura:component>

@@ -1,0 +1,12 @@
+<aura:component>
+    <aura:attribute name="review" type="Hotel_Review__c" required="true" />
+
+    <div class="slds-box slds-m-top_xxx-small">
+        <lightning:card title="{!v.review.Title__c + ' HR: ' + v.review.Hotel_Rating__c + ' PR: ' + v.review.Personal_Rating__c}"
+                        iconName="standard:feedback">
+            <p class="slds-p-horizontal_small">
+                <h1>{!v.review.Review__c}</h1>
+            </p>
+        </lightning:card>
+    </div>
+</aura:component>

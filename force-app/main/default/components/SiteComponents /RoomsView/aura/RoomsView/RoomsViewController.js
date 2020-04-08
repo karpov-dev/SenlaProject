@@ -10,4 +10,5 @@
     updateHotel : function(component, event, helper){
         component.set('v.selectedRoom', null);
     },
+
 })

@@ -1,37 +1,36 @@
 <aura:component controller="ProductController">
-
+    <aura:handler name="init" value="{!this}" action="{!c.loadLastRequest}" />
     <aura:handler name="change" value="{!v.hotel}" action="{!c.getRooms}" />
     <aura:handler name="change" value="{!v.roomsSqlRequestString}" action="{!c.getRooms}" />
-
-    <aura:handler name="init" value="{!this}" action="{!c.loadLastRequest}"/>
     <aura:handler name="change" value="{!v.dataWaiting}" action="{!c.loadLastRequest}" />
-
     <aura:attribute name="hotel" type="Hotel__c" />
     <aura:attribute name="rooms" type="Product2[]" />
-    <aura:attribute name="roomsSqlRequestString" type="String"
-        default="SELECT Id, Bads__c, Conveniences__c, Description, Name, Rating__c, Room_Address__c, (SELECT UnitPrice FROM PricebookEntries) FROM Product" />
-
+    <aura:attribute name="currentRate" type="Map" />
+    <aura:attribute name="roomsSqlRequestString" type="String" default="SELECT Id, (SELECT UnitPrice FROM PricebookEntries) FROM Product" />
     <aura:attribute name="dataWaiting" type="Boolean" default="false" access="private" />
     <aura:attribute name="errorMessage" type="String" access="private" />
-
     <aura:registerEvent name="changeSelectedHotelEvent" type="c:changeSelectedHotelEvent" />
+    <aura:registerEvent name="openHotelInMap" type="c:openMapEvent" />
 
     <aura:if isTrue="{!v.hotel}">
         <lightning:card title="{!v.hotel.Name}">
             <aura:set attribute="actions">
-                <lightning:buttonIcon iconName="utility:close" alternativeText="close" onclick="{!c.closeComponent}" />
+                <lightning:buttonGroup>
+                    <lightning:buttonIcon iconName="utility:world" alternativeText="{!$Label.c.Open_Map_Button}" onclick="{!c.openMap}" />
+                    <lightning:buttonIcon iconName="utility:close" alternativeText="{!$Label.c.Close_Button}"
+                        onclick="{!c.closeComponent}" />
+                </lightning:buttonGroup>
             </aura:set>
             <div class="slds-p-horizontal_small">
-                <img src="{!$Resource.HotelPreview}" />
-                <p>Description: {!v.hotel.Description__c}</p>
-                <p>Email: {!v.hotel.Email__c}</p>
-                <c:RoomsTable rooms="{!v.rooms}" />
+                <c:AttachmentGallery ownerId="{!v.hotel.Id}" />
+                <p>{!$Label.c.Description}: {!v.hotel.Description__c}</p>
+                <p>{!$Label.c.Email}: {!v.hotel.Email__c}</p>
+                <c:RoomsTable rooms="{!v.rooms}" currentRate="{!v.currentRate}" />
+                <c:HotelReviews hotelId="{!v.hotel.Id}"/>
             </div>
         </lightning:card>
     </aura:if>
-
     <aura:if isTrue="{!v.errorMessage}">
-        При загрузке страницы возникла ошибка с текстом {!v.errorMessage}.
+        {!$Label.c.Wromg_Message} : {!v.errorMessage}.
     </aura:if>
-
 </aura:component>

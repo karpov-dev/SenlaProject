@@ -2,11 +2,14 @@ public class HotelManager {
 
     public static List<Hotel__c> getHotelsByRequestString(String requestString){
         if(requestString != null){
-            return Database.query(requestString);
+            try {
+                return Database.query(requestString);
+            } catch (Exception e) {
+                return null;
+            }
         } else {
-            throw new NullPointerException();
+            return null;
         }
-        
     }
 
 }

@@ -1,23 +1,46 @@
 <aura:component>
-
-    <aura:attribute name="room" type="Product2" required="true" />
-
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.currentRate}" action="{!c.updatePrice}" />
+    <aura:attribute name="roomId" type="String" />
+    <aura:attribute name="room" type="Product2"/>
+    <aura:attribute name="priceBookEntry" type="PricebookEntry"/>
+    <aura:attribute name="currentRate" type="Map" required="true" />
+    <aura:attribute name="visablePrice" type="Decimal" />
+    <aura:attribute name="recordLoadError" type="String"/>
     <aura:registerEvent name="changedSelectedRoomEvent" type="c:changedSelectedRoomEvent" />
 
-    <aura:if isTrue="{!v.room}">
+    <aura:if isTrue="{!v.roomId}">
+        {!v.recordLoadError}
+        <force:recordData recordId="{!v.roomId}" 
+                          fields="Name, Room_Address__c, Rating__c, Conveniences__c, Description" 
+                          targetFields="{!v.room}" 
+                          targetError="{!v.recordLoadError}"/>
         <div class="slds-box slds-m-top_xx-small">
-            <lightning:card title="{!v.room.Name}">
+            <lightning:card title="{!v.room.Name}" iconName="standard:product">
                 <aura:set attribute="actions">
                     <lightning:buttonGroup>
-                        <lightning:button variant="neutral" label="More" onclick="{! c.fireClickEvent }" />
-                        <c:CreateBookingCard roomId="{!v.room.Id}" variant="icon" />
+                        <c:CreateBookingCard roomId="{!v.roomId}" pricebookEntryId="{!v.priceBookEntry.Id}"
+                            variant="button" title="{!v.visablePrice + ' ' + v.currentRate.key}" />
                     </lightning:buttonGroup>
                 </aura:set>
                 <p class="slds-p-horizontal_small">
-                    Price: {!v.room.PricebookEntries[0].UnitPrice}
+                    <lightning:layout>
+                        <lightning:layoutItem size="6">
+                            <li>
+                                <span>
+                                    {!$Label.c.Rating}:
+                                    <lightning:formattedNumber value="{!v.room.Rating__c}" maximumFractionDigits="2"/>
+                                </span>
+                            </li>
+                            <li>{!$Label.c.Room_Address}: {!v.room.Room_Address__c}</li>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6">
+                            <li>{!$Label.c.Conveniences}: {!v.room.Conveniences__c}</li>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    {!$Label.c.Description}: {!v.room.Description}
                 </p>
             </lightning:card>
         </div>
     </aura:if>
-
 </aura:component>
